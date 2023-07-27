@@ -1,12 +1,91 @@
+
+
 body{
-    background: #fffff8;
+    /* background-image: url("../sky2.jpg") ;
+    background-repeat: no-repeat;
+    background-size:cover; */
+background-color: rgb(222,234,255);
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    color:#3737a3;
+
+
 }
+
+
+header{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+}
+#inputs{
+    margin-top: 5rem;
+}
+
+.subHead{
+    margin: 0rem;
+    font-size: large;
+}
+
+label{
+    font-size: large;
+    width: 100%;
+}
+
+input{
+    height: 3rem;
+    border: none;
+    width: 100%;
+    border-radius: 5%;
+    margin-top: 1rem;
+}
+
+.city,.start,.end{
+    margin-bottom: 3rem;
+
+
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+}
+
+button{
+background-color: transparent;
+border: 1px solid rgb(145,160,189);
+padding: 1rem;
+border-radius: 5%;
+width: 100%;
+background-color: rgb(255, 252, 252);
+color:#3737a3 ;
+font-size: large;
+}
+
+button:hover{
+    cursor :pointer;
+}
+
+::placeholder,#pickerstart,#pickerend{
+    font-size:small;
+    color:rgb(167, 166, 166)  ;
+}
+
+input:focus{
+    outline: none ;
+
+border: 1px solid #3737a3 ;
+ }
+/* 
+
 
 #app{
     display: grid;
     grid-auto-rows: minmax(150px, auto);
-    /* grid-template-columns:  */
     height:100vh;
     background: #f23557;
     color: #f0d43a;
@@ -47,7 +126,6 @@ body{
 
 }
 
-/*  Basic Styling To Override Default For Basic HTML Elements */
 label{
     display:block;
     font-size: 27px;
@@ -84,28 +162,66 @@ textarea{
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
 }
-/* Reset style for HTML element on active to have no border*/
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
     outline: none;
 }
-/* Style for Placeholder Text*/
-::placeholder { /* Firefox, Chrome, Opera */ 
+::placeholder {
     color: #f0d43a; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
-:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
+:-ms-input-placeholder { 
     color: #f0d43a; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
-::-ms-input-placeholder { /* Microsoft Edge */ 
+::-ms-input-placeholder { 
     color: #f0d43a; 
     font-family: 'Oswald', sans-serif;
 
 } 
+@mixin flexCenter($direction) {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: $direction;
+}
+
+@mixin flexLeft($direction) {
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: $direction;
+}
+
+@mixin mainContainer() {
+	background-color: white;
+	padding: 30px;
+	border-radius: 15px;
+	box-shadow: 10px 10px 15px -2px rgba(#a3adce, .1);
+}
+
+// Media query mixin for mobile
+@mixin mobile {
+	@media (max-width: 767px) {
+		@content;
+	}
+}
+
+// Media query mixin for mobile
+@mixin tablet {
+	@media (max-width: 1024px) and (min-width: 768px) {
+		@content;
+	}
+}
+
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+} */

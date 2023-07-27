@@ -26,8 +26,8 @@ app.use(cors());
 app.use(express.static('dist'));
 
 
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
+app.listen(2030, function () {
+    console.log('Example app listening on port 2030!')
 })
 
 app.get('/', (req, res) => {
