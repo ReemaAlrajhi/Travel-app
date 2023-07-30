@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
-require('dotenv').config();
+dotenv.config();
 
 
 // Global variables
@@ -30,20 +30,25 @@ app.listen(2030, function () {
     console.log('Example app listening on port 2030!')
 })
 
-app.get('/', (req, res) => {
-  res.sendFile('dist/index.html');
+// app.get('/', (req, res) => {
+//   res.sendFile('dist/index.html');
+// });
+
+app.get('/', function (request, response) {
+    response.sendFile(path.resolve('dist/index.html'))
 });
 
-// Add city
-app.post('/add', (req, res) => {
-  cityData = req.body;
-  res.send(cityData);
-});
 
-// Get all city
-app.get('/all', (req, res) => {
-  res.send(cityData);
-});
+// // Add city
+// app.post('/add', (req, res) => {
+//   cityData = req.body;
+//   res.send(cityData);
+// });
+
+// // Get all city
+// app.get('/all', (req, res) => {
+//   res.send(cityData);
+// });
 
 
 app.post('/appData', addData);

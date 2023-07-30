@@ -15,7 +15,7 @@ function retrieveData(){
     const feelings = document.getElementById('feelings').value;
 
   getWeather(baseURL,zip, apiKey).then(function(data){
-        postData('http://localhost:3000/add', {
+        postData('http://localhost:2030/add', {
           date: newDate , 
           temp: Math.round(data.main.temp),
           fellings:feelings
@@ -59,7 +59,7 @@ const postData = async ( url = '', data = {})=> {
 };
 
 const updateUI = async () => {
-    const req = await fetch('http://localhost:3000/all');
+    const req = await fetch('http://localhost:2030/all');
 
     try{
      const data = await req.json();
