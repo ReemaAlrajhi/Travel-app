@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+console.log('app')
 
 const postData = async (userInput, duration) => {
     const res = await fetch('http://localhost:2030/appData', {

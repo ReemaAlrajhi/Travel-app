@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
+const { Logger } = require('sass');
 dotenv.config();
 
 
@@ -79,6 +80,7 @@ async function getCoordinates(city) {
     const response = await fetch(geoURL+city+geoKey);
     try {
         const cityData = await response.json();
+        console.log(geoURL+city+geoKey);
         return cityData;
     }
     catch (error) {

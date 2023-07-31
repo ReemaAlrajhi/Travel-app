@@ -2,6 +2,7 @@ import Litepicker from 'litepicker';
 import { setDuration } from './setDuration';
 import { postData } from './app';
 import { displayWeather } from './weather';
+console.log('submitHandler')
 
 const { DateTime } = require("luxon");
 const loader = document.getElementById('loading');

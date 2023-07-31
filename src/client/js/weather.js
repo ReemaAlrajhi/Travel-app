@@ -1,5 +1,5 @@
 const { DateTime } = require("luxon");
-
+console.log('weather')
 const displayWeather = async (duration, res) => {
     // Posting weather
     if (duration >= 7 && duration <= 16) {

@@ -1,6 +1,7 @@
 import Litepicker from 'litepicker';
 const { DateTime } = require("luxon");
 
+console.log('setDuration')
 
 const setDuration = (startDate, endDate) => {
 
