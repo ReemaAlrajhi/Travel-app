@@ -5,20 +5,22 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
 const { Logger } = require('sass');
+const { log } = require('console');
 dotenv.config();
 
 
 // Global variables
-let cityData;
-let geoInfo={}
+// let cityData;
+// let geoInfo={}
 const geoURL = "http://api.geonames.org/searchJSON?q=";
 const geoKey = process.env.GEONAMES_KEY;
+
+const imgURL='https://pixabay.com/api/?key=';
+const imgKey = process.env.IMG_KEY;
 
 const weatherURL= 'https://api.weatherbit.io/v2.0/'
 const weatherKey = process.env.WEATHER_KEY;
 
-const imgURL='https://pixabay.com/api/?key=';
-const imgKey = process.env.IMG_KEY;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -55,7 +57,10 @@ app.get('/', function (request, response) {
 app.post('/appData', addData);
 
 async function addData(request, response) {
+    console.log("in server addData");
+
     const city = request.body.userInput;
+    console.log("in server city",city);
 
     getCoordinates(city).then((cityData) => {
         const duration = request.body.duration;
@@ -77,18 +82,22 @@ async function addData(request, response) {
 };
 
 async function getCoordinates(city) {
+    console.log("in coordanites ",city);
     const response = await fetch(geoURL+city+geoKey);
     try {
         const cityData = await response.json();
         console.log(geoURL+city+geoKey);
+        console.log("response get cordanate ",cityData);
         return cityData;
     }
     catch (error) {
         console.log('Error in getCoordinates : ', error);
     }
 }
+
+
 async function getImage(city, country) {
-    const pixaResponse = await fetch(imgURL+imgKey+'&q='+city+country);
+    const pixaResponse = await fetch(imgURL+imgKey+'&q='+city+"+"+country);
     try {
         const image = await pixaResponse.json();
         return image;
@@ -97,6 +106,7 @@ async function getImage(city, country) {
         console.log('Error in the getImage : ', error);
     }
 }
+
 
 async function getWeather(lat, lon, duration) {
     // If the duration of the trip is equal or longer than 7 days, get the forecast.
@@ -110,6 +120,7 @@ async function getWeather(lat, lon, duration) {
             console.log('Error in the getWeather : ', error);
         }
     } else
+    
     if (duration > 0 && duration < 7) {
         const weatherResponse = await fetch(weatherURL+'current?lat='+lat+'&lon='+lon+'key='+weatherKey);
         try {
@@ -121,6 +132,8 @@ async function getWeather(lat, lon, duration) {
         }
     } 
 }
+
+
 // // GET route for weather forecast for 16 days
 // app.get('/weather/:destinationId', async (req, res) => {
 //   const id = parseInt(req.params.destinationId);

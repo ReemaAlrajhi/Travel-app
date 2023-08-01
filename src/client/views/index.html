@@ -18,7 +18,7 @@
     <header>
         <h1>Travel App </h1>
         <div class="subHead">
-            Check the waether !!
+            Let check the waether !!
         </div>
     </header>
 
@@ -33,12 +33,15 @@
 
                 <div class="start">
                     <label for="startDate"> From:</label>
-                    <input id="pickerstart" name="trip-start" value="yyyy-mm-dd">
+                    <!-- <input id="pickerstart" name="trip-start" value="yyyy-mm-dd"> -->
+                    <input type="date" id="from">
                 </div>
 
                 <div class="end">
                     <label for="endDate">To:</label>
-                    <input id="pickerend" name="trip-end" value="yyyy-mm-dd">
+                    <!-- <input id="pickerend" name="trip-end" value="yyyy-mm-dd"> -->
+                    <input type="date" id="to">
+
                 </div>
 
                 <button id="submit" type="submit" name="" onclick="return Client.handleSubmit(event)"
