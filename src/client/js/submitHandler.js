@@ -1,71 +1,45 @@
-import Litepicker from 'litepicker';
 import { postData } from './app';
-import { displayWeather } from './weather';
-// console.log('submitHandler')
 
-// const { DateTime } = require("luxon");
-// const loader = document.getElementById('loading');
-// const results = document.getElementById('results');
-
-// Reset values when reloading page
-// window.onload = function () {
-//     document.getElementById('city').value = "";
-//     document.getElementById('pickerstart').value = DateTime.now().toISODate();
-//     document.getElementById('pickerend').value = 'YYYY-MM-DD';
-
-//     // Setting up date picker
-//     const today = DateTime.now();
-//     const maxDate = DateTime.now().plus({ days: 16 });
-//     new Litepicker({
-//         element: document.getElementById('pickerstart'),
-//         elementEnd: document.getElementById('pickerend'),
-//         singleMode: false,
-//         allowRepick: true,
-//         autoRefresh: true,
-//         minDate: today,
-//         maxDate: maxDate,
-//         tooltipNumber: (totalDays) => {
-//             return totalDays - 1;
-//         }
-//     });
-// }
 
 function handleSubmit(event) {
     event.preventDefault()
-    // results.classList.remove('hide');
-    // loader.classList.remove('hide');
     var from =document.getElementById('from')
     var to =document.getElementById('to')
 
-    // console.log("handel submit ",x.value);
-    // const startDate = DateTime.fromISO(document.getElementById('pickerstart').value);
-    // const endDate = DateTime.fromISO(document.getElementById('pickerend').value);
-    // Save duration value in a variable
     const duration = calcDuration(from.value, to.value);
     const userInput = document.getElementById('city').value;
     postData(userInput, duration)
     .then((res) => {
-        
-        console.log(res);
-        const cityName = `${res[2].geonames[0].toponymName}`;
-        const countryName = `${res[2].geonames[0].countryName}`;
 
-        // loader.classList.add('hide');
-        const inputs = document.getElementById("destination-pic");
-        inputs.classList.remove('hide');
-        // Posting image
-        img.setAttribute('src', `${res[1].hits[0].largeImageURL}`);
-        img.setAttribute('alt', `Photo of ${res[2].geonames[0].toponymName}`)
+        const cityName = res[2].geonames[0].toponymName;
+        const countryName = res[2].geonames[0].countryName
+        document.getElementById('result').classList.remove('hide');
 
-        // Posting destination name in title and figcaption
-        document.getElementById('location').textContent = `${cityName}, ${countryName}`;
-        document.getElementById('figcaption').textContent = `${cityName}, ${countryName}`;
+        //image
+        document.getElementById("img").setAttribute('src', res[1].hits[0].largeImageURL);
+        document.getElementById("img").setAttribute('alt', res[2].geonames[0].toponymName)
+        document.getElementById('figcaption').textContent = cityName+" , "+countryName;
 
-        // Posting weather
-        displayWeather(duration, res);
+        //info
+        document.getElementById('cityAndCountry').textContent=cityName+" - "+countryName;
+        document.getElementById('days').textContent=duration
+        document.getElementById('temp').textContent=res[0].data[0].temp;
+        document.getElementById('description').textContent = res[0].data[0].weather.description;
+
+     
+
     })
 }
 
+function setDate(event) {
+    document.getElementById("from").min = new Date().toISOString().split("T")[0];
+    document.getElementById("to").min =document.getElementById("from").value;
+    if(event.srcElement.id =="from")
+    {      
+        document.getElementById("to").valueAsDate = null;
+    }
+
+}
 
 const calcDuration = (startDate, endDate) => {
 
@@ -78,4 +52,4 @@ const calcDuration = (startDate, endDate) => {
 
 
 
-export { handleSubmit }
+export { handleSubmit,setDate }

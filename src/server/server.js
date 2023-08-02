@@ -4,14 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
-const { Logger } = require('sass');
-const { log } = require('console');
 dotenv.config();
 
 
-// Global variables
-// let cityData;
-// let geoInfo={}
+
 const geoURL = "http://api.geonames.org/searchJSON?q=";
 const geoKey = process.env.GEONAMES_KEY;
 
@@ -33,35 +29,15 @@ app.listen(2030, function () {
     console.log('Example app listening on port 2030!')
 })
 
-// app.get('/', (req, res) => {
-//   res.sendFile('dist/index.html');
-// });
 
 app.get('/', function (request, response) {
     response.sendFile(path.resolve('dist/index.html'))
 });
 
 
-// // Add city
-// app.post('/add', (req, res) => {
-//   cityData = req.body;
-//   res.send(cityData);
-// });
-
-// // Get all city
-// app.get('/all', (req, res) => {
-//   res.send(cityData);
-// });
-
-
-app.post('/appData', addData);
-
-async function addData(request, response) {
-    console.log("in server addData");
-
+app.post('/chcekWeather', chcekWeather);
+async function chcekWeather(request, response) {
     const city = request.body.userInput;
-    console.log("in server city",city);
-
     getCoordinates(city).then((cityData) => {
         const duration = request.body.duration;
         const country = cityData.geonames[0].countryName;
@@ -70,11 +46,10 @@ async function addData(request, response) {
         getImage(city, country).then((image) => {
             getWeather(lat, lon, duration).then((weather) =>{
                 try {
-                    // Send response as an array, with data from Weatherbit, Pixabay and Geonames APIs
                     response.send([weather, image, cityData]);
                 }
                 catch (error) {
-                    console.log('Error in the addData function: ',error);
+                    console.log('Error in the chcekWeather function: ',error);
                 }
             })
         })
@@ -82,12 +57,9 @@ async function addData(request, response) {
 };
 
 async function getCoordinates(city) {
-    console.log("in coordanites ",city);
     const response = await fetch(geoURL+city+geoKey);
     try {
         const cityData = await response.json();
-        console.log(geoURL+city+geoKey);
-        console.log("response get cordanate ",cityData);
         return cityData;
     }
     catch (error) {
@@ -109,9 +81,8 @@ async function getImage(city, country) {
 
 
 async function getWeather(lat, lon, duration) {
-    // If the duration of the trip is equal or longer than 7 days, get the forecast.
     if (duration >= 7) {
-        const weatherResponse = await fetch(weatherURL+'forecast/daily?lat='+lat+'&lon='+lon+'days='+duration+'&key='+weatherKey);
+        const weatherResponse = await fetch(weatherURL+'forecast/daily?lat='+lat+'&lon='+lon+'&days='+duration+'&key='+weatherKey);
         try {
             const weather = await weatherResponse.json();
             return weather;
@@ -120,9 +91,9 @@ async function getWeather(lat, lon, duration) {
             console.log('Error in the getWeather : ', error);
         }
     } else
-    
+
     if (duration > 0 && duration < 7) {
-        const weatherResponse = await fetch(weatherURL+'current?lat='+lat+'&lon='+lon+'key='+weatherKey);
+        const weatherResponse = await fetch(weatherURL+'current?lat='+lat+'&lon='+lon+'&key='+weatherKey);
         try {
             const weather = await weatherResponse.json();
             return weather;
@@ -132,57 +103,3 @@ async function getWeather(lat, lon, duration) {
         }
     } 
 }
-
-
-// // GET route for weather forecast for 16 days
-// app.get('/weather/:destinationId', async (req, res) => {
-//   const id = parseInt(req.params.destinationId);
-//   let lat;
-//   let lng;
-//   const geonamesData = cityData.geonames;
-
-//   for (let i = 0; i < geonamesData.length; i++) {
-//     if (geonamesData[i].geonameId === id) {
-//       lat = geonamesData[i].lat;
-//       lng = geonamesData[i].lng;
-//       break;
-//     }
-//   }
-
-//   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily?lat='+lat+'&lon='+lng+'&key='+weatherAPIKey;
-
-//   const response = await fetch(apiUrl);
-//   try {
-//     const json = await response.json();
-//     res.json(json);
-//   } catch (err) {
-//     console.log('Error: ', err);
-//   }
-// });
-
-// // GET route for pixabay image
-// app.get('/image/:destinationId', async (req, res) => {
-//   const id = parseInt(req.params.destinationId);
-//   let destination = '';
-//   const geonamesData = cityData.geonames;
-
-//   for (let i = 0; i < geonamesData.length; i++) {
-//     if (geonamesData[i].geonameId === id) {
-//       destination = geonamesData[i].name;
-//       break;
-//     }
-//   }
-
-//   const apiUrl = `https://pixabay.com/api/?key=${imgAPIKey}&q=${destination}&image_type=photo`;
-
-//   const response = await fetch(apiUrl);
-//   try {
-//     const imgInfo = await response.json();
-//     res.json(imgInfo);
-//   } catch (err) {
-//     console.log('Error: ', err);
-//     res.json({ total: 0, totalHits: 0, hits: [] });
-//   }
-// });
-
-// module.exports = app;

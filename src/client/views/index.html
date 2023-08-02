@@ -9,8 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!--<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>-->
-    <title>FEND Capstone - Travel App</title>
+    <title>Travel App</title>
 </head>
 
 <body>
@@ -33,58 +32,43 @@
 
                 <div class="start">
                     <label for="startDate"> From:</label>
-                    <!-- <input id="pickerstart" name="trip-start" value="yyyy-mm-dd"> -->
-                    <input type="date" id="from">
+                    <input type="date" id="from" onblur="return Client.setDate(event)"
+                        onclick="return Client.setDate(event)">
                 </div>
 
                 <div class="end">
                     <label for="endDate">To:</label>
-                    <!-- <input id="pickerend" name="trip-end" value="yyyy-mm-dd"> -->
                     <input type="date" id="to">
 
                 </div>
 
                 <button id="submit" type="submit" name="" onclick="return Client.handleSubmit(event)"
-                    onsubmit="return Client.handleSubmit(event)">Go</button>
+                    onsubmit="return Client.handleSubmit(event)">Check</button>
             </form>
         </section>
 
 
+        <section id="result" class="hide">
+            <div class="result">
 
-        <section id="results" class="results hide">
-            <div class="loading-container">
-                <svg id="loading" class="spinner hide" width="65px" height="65px" viewBox="0 0 66 66"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30">
-                    </circle>
-                </svg>
+                <figure>
+                    <img id="img">
+                </figure>
+                <figcaption id="figcaption"></figcaption>
+
+                <p>
+                <h2>Your destination is: <span id="cityAndCountry"></span></h2>
+                </p>
+                <p>
+                <h3>It's <span id="days"></span> days</h3>
+                </p>
+                <p>
+                <h3>The tempreture is: <span id="temp"></span> dgree</h3>
+                </p>
+                <p>
+                <h3>Description: <span id="description"></span> dgree</h3>
+                </p>
             </div>
-
-            <div class="results-row-1">
-                <div id="destination-pic" class="destination-pic hide">
-                    <figure>
-                        <img id="img">
-                    </figure>
-                    <figcaption id="figcaption"></figcaption>
-                </div>
-                <div id="current-weather">
-                    <h3 id="location"></h3>
-                    <div id="current">
-                        <img id="current-icon">
-                        <div class="weather-content">
-                            <p id="current-temp" class="current-temp"></p>
-                            <p id="description"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="results-row-2">
-                <h3 id="forecast-title"></h3>
-                <div id="forecast-weather">
-                </div>
-            </div>
-
         </section>
     </main>
 
@@ -96,7 +80,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
-                    .then(reg => console.log('Service Worker: Registered!'))
+                    .then(reg => console.log('Service Worker work'))
                     .catch(err => console.log('Error: ', err))
             });
         }
